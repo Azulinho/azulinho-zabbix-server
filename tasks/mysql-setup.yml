@@ -1,0 +1,43 @@
+
+
+- name: create mysql database
+  mysql_db: name=zabbix
+    state=present
+  tags:
+    - zabbix
+    - zabbix-server
+
+- name: check database exists
+  stat: path=/var/lib/mysql/zabbix/users.frm
+  register: _zabbix_db_exists
+  tags:
+    - zabbix
+    - zabbix-server
+
+- name: import zabbix schema
+  mysql_db: name=zabbix
+    state=import
+    target={{ item }}
+  when: _zabbix_db_exists.stat.exists == false
+  with_items:
+    - /usr/share/zabbix-mysql/schema.sql
+    - /usr/share/zabbix-mysql/images.sql
+    - /usr/share/zabbix-mysql/data.sql
+
+- name: create zabbix mysql user
+  mysql_user: name={{ azulinho_zabbix_server.mysql_username }}
+    password={{ azulinho_zabbix_server.mysql_password }}
+    priv={{ azulinho_zabbix_server.dbname }}.*:ALL
+    host='{{ azulinho_zabbix_server.dbhost }}'
+    state=present
+  tags:
+    - zabbix
+    - zabbix-server
+
+- name: update zabbix admin password
+  shell: mysql -uroot -h{{ azulinho_zabbix_server.dbhost }} {{ azulinho_zabbix_server.dbname }} -e "UPDATE users SET passwd=md5('{{ azulinho_zabbix_server.zabbix_password }}') WHERE alias='Admin';"
+  tags:
+    - zabbix
+    - zabbix-server
+    - zabbix-password
+

@@ -1,0 +1,10 @@
+---
+
+- include: install-zabbix-packages.yml
+
+- include: mysql-setup.yml
+
+- include: zabbix-server-configuration.yml
+
+- include: apache-php.yml
+

@@ -1,0 +1,13 @@
+azulinho_zabbix_server:
+  nodeid: 999
+  zabbix_password: zabbix
+  zabbix_host: localhost
+  mysql_username: zabbix
+  mysql_password: password
+  mysql_port: 3306
+  mysql_start_pollers: 25
+  mysql_start_trappers: 25
+  server_port: 10051
+  dbname: zabbix
+  dbhost: localhost
+

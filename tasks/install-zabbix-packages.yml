@@ -1,0 +1,19 @@
+
+- name: install zabbix packages
+  yum: name={{ item }}
+    state=present
+  with_items:
+    - MySQL-python
+    - zabbix22
+    - zabbix22-web-mysql
+    - zabbix22-server-mysql
+    - python-pip
+  tags:
+    - zabbix
+    - zabbix-server
+
+- name: install python zabbix api
+  pip: name=pyzabbix
+    state=present
+  tags:
+    - zabbix
