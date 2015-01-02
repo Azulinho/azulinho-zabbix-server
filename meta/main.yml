@@ -11,4 +11,5 @@ galaxy_info:
 dependencies:
   - Azulinho.azulinho-apache
   - Azulinho.azulinho-mysql-server
+  - Azulinho.azulinho-yum-repo-epel
 
